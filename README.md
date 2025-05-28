@@ -4,29 +4,39 @@ CoinbaseのAPIを使って、ビットコイン（BTC）の現在価格を取得
 
 ## 🔧 ファイル構成
 
-| ファイル名 | 説明 |
-|------------|------|
-| `btc_logger.py` | BTC価格を取得してCSVに記録 |
-| `Coinbase API.py` | 単発で価格取得して表示するテスト用 |
-| `test_connection.py` | ネットワーク接続確認用スクリプト |
+| ファイル名            | 説明 |
+|-----------------------|------|
+| `btc_logger.py`       | BTC価格を取得し、CSVファイルに記録するメインスクリプト |
+| `Coinbase API.py`     | 単発でBTC価格を取得し表示するテスト用スクリプト |
+| `test_connection.py`  | ネットワーク接続確認用スクリプト |
+| `btc_logger.bat`      | タスクスケジューラからPythonスクリプトを実行するためのバッチファイル |
+
+## ⚙ 自動実行設定
+
+- Windowsタスクスケジューラを使用して、`btc_logger.bat` を定期的に実行
+- 自動的に `btc_log.csv` に価格が追記されます
 
 ## 🛠 使用ライブラリ
 
-- `requests`：API通信
+- `requests`：Coinbase APIとの通信
 - `datetime`：タイムスタンプ取得
-- `csv`：データ保存
+- `csv`：CSV形式でのデータ保存
 
-## 💡 今後の展望
+## 🚫 Gitに含まれないファイル
 
-- 定期実行（タスクスケジューラ連携）
-- データ可視化（matplotlib or Webアプリ化）
-- DiscordやLINE通知などの応用
+- ログファイル `btc_log.csv` は `.gitignore` によりGit管理外にしています
+
+## 💡 今後の展望（拡張計画）
+
+- 定期実行の設定（タスクスケジューラ対応）✅
+- データのグラフ化（matplotlib）
+- Webアプリ化（Flask / Streamlit）
+- 通知機能の追加（LINE / Discord Bot 連携）
 
 ---
 
-### 🔹 ② README を Git に追加して Push
+## 💻 実行例
 
 ```bash
-git add README.md
-git commit -m "READMEを追加"
-git push origin master
+$ python btc_logger.py
+2025-05-28 10:00:00, 67123.45 USD
