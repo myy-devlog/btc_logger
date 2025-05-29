@@ -47,3 +47,54 @@ CoinbaseのAPIを使って、ビットコイン（BTC）の現在価格を取得
 2. 下記コマンドで実行
    ```bash
    python btc_plot.py
+3. graphsフォルダ内に「2025-05-XX_line.png」の形式で画像が出力されます
+
+出力サンプル
+X軸：日時（直近30件）
+
+Y軸：価格(USD)
+
+青の折れ線：価格の推移
+
+オレンジの点線：平均価格
+
+凡例や日付の見切れも調整済み
+
+🛠 使用ライブラリ
+requests：Coinbase APIとの通信
+
+datetime：タイムスタンプ取得
+
+csv：CSV形式でのデータ保存
+
+matplotlib：グラフ描画
+
+🚫 Gitに含まれないファイル
+ログファイル btc_log.csv は .gitignore によりGit管理外にしています
+
+生成されるPNG画像も.gitignore対象です
+
+💡 今後の展望（拡張計画）
+定期実行の設定（タスクスケジューラ対応）✅
+
+データのグラフ化（matplotlib）✅
+
+Webアプリ化（Flask / Streamlit）
+
+通知機能の追加（LINE / Discord Bot 連携）
+
+週次・月次レポートの自動生成
+
+💻 実行例
+bash
+コピーする
+編集する
+$ python btc_logger.py
+2025-05-28 10:00:00, 67123.45 USD
+
+$ python btc_plot.py
+📊 統計情報（直近30件）
+平均価格：102792.77 USD
+最高価格：108557.24 USD
+最安価格：98359.36 USD
+✅ グラフを保存しました: C:/Users/Documents/cursor/btc_logger/graphs/2025-05-29_line.png
