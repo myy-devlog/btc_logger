@@ -23,7 +23,7 @@ CoinbaseのAPIを使って、ビットコイン（BTC）の現在価格を取得
 3. 名前を入力（例：btc_logger）
 4. トリガー：任意の頻度を選択（例：1時間おき）
 5. 操作：「プログラムの開始」を選択し、次を指定：
-   - **プログラム/スクリプト**：`btc_logger.bat` のフルパス（例：`C:\Users\Mizuki\Documents\cursor\btc_logger\btc_logger.bat`）
+   - **プログラム/スクリプト**：`btc_logger.bat` のフルパス（例：`C:\Users\Documents\cursor\btc_logger\btc_logger.bat`）
 6. 「完了」をクリック
 7. 作成したタスクを右クリック → 「プロパティ」 → 「全般」タブ → 「最上位の特権で実行」にチェックを入れる
 
