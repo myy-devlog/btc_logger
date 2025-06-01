@@ -6,95 +6,89 @@ CoinbaseのAPIを使って、ビットコイン（BTC）の現在価格を取得
 
 ## 🔧 ファイル構成
 
-| ファイル名            | 説明 |
-|-----------------------|------|
-| `btc_logger.py`       | BTC価格を取得し、CSVファイルに記録するメインスクリプト |
-| `btc_plot.py`         | 直近30件のBTC価格推移を**折れ線グラフ**で可視化するスクリプト【最新版】 |
-| `Coinbase API.py`     | 単発でBTC価格を取得し表示するテスト用スクリプト |
-| `test_connection.py`  | ネットワーク接続確認用スクリプト |
-| `btc_logger.bat`      | タスクスケジューラからPythonスクリプトを実行するためのバッチファイル |
+| ファイル名                  | 説明 |
+|-----------------------------|------|
+| `btc_logger.py`             | BTC価格を取得し、CSVファイルに記録するメインスクリプト |
+| `btc_plot.py`               | 直近30件のBTC価格推移を折れ線グラフで可視化するスクリプト |
+| `btc_oneday_peakdrop.py`    | 指定日（0:00〜0:00）の価格変動をグラフ化（日次レポート）|
+| `btc_weekly_peakdrop.py`    | 週次で最大上昇・下落を含む比較グラフを作成（週次レポート）|
+| `btc_monthly_peakdrop.py`   | 月次で最大・最小を含む集計グラフを作成（月次レポート）|
+| `btc_binance_month_data.py` | Binance APIから月次データを取得しCSVに保存 |
+| `Coinbase API.py`           | 単発でBTC価格を取得し表示するテスト用スクリプト |
+| `test_connection.py`        | ネットワーク接続確認用スクリプト |
+| `btc_logger.bat`            | タスクスケジューラからスクリプトを実行するバッチファイル |
 
 ---
 
-## ⚙ 自動実行設定
+## ⚙ 自動実行設定（btc_logger.py）
 
-- Windowsタスクスケジューラを使用して、`btc_logger.bat` を定期的に実行
-- 自動的に `btc_log.csv` に価格が追記されます
-
-### ✅ タスクスケジューラ設定手順（Windows）
-
-1. タスクスケジューラを開く
-2. 「基本タスクの作成」をクリック
-3. 名前を入力（例：btc_logger）
-4. トリガー：任意の頻度を選択（例：1時間おき）
-5. 操作：「プログラムの開始」を選択し、次を指定：  
-   **プログラム/スクリプト**：`btc_logger.bat` のフルパス（例：`C:\Users\Documents\cursor\btc_logger\btc_logger.bat`）
-6. 「完了」をクリック
-7. 作成したタスクを右クリック → 「プロパティ」 → 「全般」タブ → 「最上位の特権で実行」にチェックを入れる
+- Windowsタスクスケジューラを使って `btc_logger.bat` を定期実行
+- 自動で `btc_log.csv` に価格を記録
 
 ---
 
-## 📊 グラフ出力機能【NEW】
+## 📊 可視化・レポート出力機能
 
-### btc_plot.py
+### 📅 日次レポート（btc_oneday_peakdrop.py）
+- 指定した1日（JST 0:00〜0:00）を対象に価格推移をグラフ化
+- 高値・底値、最大上昇・下落を色分け表示
 
-- `btc_log.csv`の**直近30件のBTC価格推移**を**折れ線グラフ**で可視化し、PNG画像で出力します
-- **時系列のズレや重複も自動修正**され、見やすいグラフが生成されます
+### 📈 週次レポート（btc_weekly_peakdrop.py）
+- 今週と先週の日別価格を比較
+- 週ごとの平均・中央値・最大上下動をプロット
 
-#### 使い方
+### 📆 月次レポート（btc_monthly_peakdrop.py）
+- 月単位での平均・高値・底値をバーグラフで出力
+- Binanceの履歴データを活用
 
-1. `btc_logger.py`で自動記録された`btc_log.csv`が存在することを確認
-2. 下記コマンドで実行
-   ```bash
-   python btc_plot.py
-3. graphsフォルダ内に「2025-05-XX_line.png」の形式で画像が出力されます
+---
 
-出力サンプル
-X軸：日時（直近30件）
+## 🖼 グラフ例（btc_plot.py）
 
-Y軸：価格(USD)
+- `btc_log.csv` の直近30件のデータを可視化
+- 平均価格とともに時系列プロット
+- 自動で `graphs/` フォルダにPNG形式で保存
 
-青の折れ線：価格の推移
+---
 
-オレンジの点線：平均価格
+## 🔄 最新アップデート情報
 
-凡例や日付の見切れも調整済み
+- `2025-06-01`: 日次/週次/月次レポートスクリプトを追加
+- 詳細は [CHANGELOG.md](./CHANGELOG.md) を参照
 
-🛠 使用ライブラリ
-requests：Coinbase APIとの通信
+---
 
-datetime：タイムスタンプ取得
+## 💡 今後の展望
 
-csv：CSV形式でのデータ保存
+- Webアプリ化（Flask / Streamlit）
+- 通知機能（LINE / Discord）
+- トークン価格比較・マルチコイン対応
 
-matplotlib：グラフ描画
+---
 
-🚫 Gitに含まれないファイル
-ログファイル btc_log.csv は .gitignore によりGit管理外にしています
+## 🛠 使用ライブラリ
 
-生成されるPNG画像も.gitignore対象です
+- `requests`：API通信
+- `csv`：ログ保存
+- `datetime`：タイムスタンプ処理
+- `matplotlib`：可視化
+- `zoneinfo`：JST変換（Python 3.9+）
 
-💡 今後の展望（拡張計画）
-定期実行の設定（タスクスケジューラ対応）✅
+---
 
-データのグラフ化（matplotlib）✅
+## 🚫 Git管理外ファイル
 
-Webアプリ化（Flask / Streamlit）
+- `btc_log.csv` や `graphs/*.png` は `.gitignore` によりGit管理外
 
-通知機能の追加（LINE / Discord Bot 連携）
+---
 
-週次・月次レポートの自動生成
+## 💻 実行例
 
-💻 実行例
-bash
-コピーする
-編集する
+```bash
 $ python btc_logger.py
-2025-05-28 10:00:00, 67123.45 USD
+2025-06-01 09:00:00, 67200.00 USD
 
-$ python btc_plot.py
-📊 統計情報（直近30件）
-平均価格：102792.77 USD
-最高価格：108557.24 USD
-最安価格：98359.36 USD
-✅ グラフを保存しました: C:/Users/Documents/cursor/btc_logger/graphs/2025-05-29_line.png
+$ python btc_oneday_peakdrop.py
+📊 最高: 67,500 USD | 最安: 66,400 USD | 平均: 66,950 USD
+✅ グラフ保存: graphs/oneday_2025-06-01_peakdrop.png
+```
